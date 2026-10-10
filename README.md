@@ -49,8 +49,3 @@ install the skill at https://github.com/installTorren/torren-agent
 - **GitHub:** [https://github.com/installTorren/torren-agent](https://github.com/installTorren/torren-agent)
 
 ---
-
-### License
-
-MIT
-```
