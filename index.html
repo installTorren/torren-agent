@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Torren Agent — Terminal</title>
+  <link rel="icon" href="https://pbs.twimg.com/profile_images/2108843216095391744/Ql_UWufG_400x400.jpg"/>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0a0a0f;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      overflow-x: hidden;
+      color: #e0e0e0;
+    }
+
+    /* 3D Window Effect */
+    .window {
+      width: 90%;
+      max-width: 820px;
+      background: #1a1a24;
+      border-radius: 12px;
+      box-shadow: 
+        0 0 0 1px #333,
+        0 25px 50px -12px rgba(0,0,0,0.7),
+        0 0 40px rgba(0, 194, 255, 0.15);
+      overflow: hidden;
+      transform: perspective(1000px) rotateX(2deg);
+      transition: transform 0.3s ease;
+    }
+
+    .window:hover {
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    /* Title Bar */
+    .title-bar {
+      background: linear-gradient(90deg, #0f0f15, #1a1a24);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #2a2a35;
+    }
+
+    .title-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .title-left img {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+    }
+
+    .title-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: #00c2ff;
+    }
+
+    .window-controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .control {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .control.close { background: #ff5f56; }
+    .control.minimize { background: #ffbd2e; }
+    .control.maximize { background: #27c93f; }
+
+    /* Terminal Body */
+    .terminal {
+      padding: 24px;
+      min-height: 480px;
+      background: #0d0d14;
+      position: relative;
+    }
+
+    .line {
+      margin-bottom: 14px;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .prompt {
+      color: #00c2ff;
+      font-weight: 600;
+    }
+
+    .cmd {
+      color: #e0e0e0;
+    }
+
+    .output {
+      color: #a0a0b0;
+      margin-left: 20px;
+      margin-top: 4px;
+    }
+
+    .highlight {
+      color: #00ff9d;
+    }
+
+    .warning {
+      color: #ffbd2e;
+    }
+
+    .link {
+      color: #00c2ff;
+      text-decoration: none;
+      border-bottom: 1px dashed #00c2ff;
+    }
+
+    .link:hover {
+      color: #fff;
+      border-bottom-color: #fff;
+    }
+
+    /* Cursor blink */
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 16px;
+      background: #00c2ff;
+      margin-left: 4px;
+      animation: blink 1s infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 30px;
+      padding-top: 16px;
+      border-top: 1px solid #2a2a35;
+      font-size: 12px;
+      color: #666;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #1a1a24;
+      border: 1px solid #333;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      margin-right: 6px;
+    }
+
+    @media (max-width: 600px) {
+      .window {
+        width: 95%;
+        transform: none;
+      }
+      .terminal {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="window">
+    <!-- Title Bar -->
+    <div class="title-bar">
+      <div class="title-left">
+        <img src="https://pbs.twimg.com/profile_images/2108843216095391744/Ql_UWufG_400x400.jpg" alt="Torren"/>
+        <div class="title-text">torren-agent — Terminal</div>
+      </div>
+      <div class="window-controls">
+        <div class="control close"></div>
+        <div class="control minimize"></div>
+        <div class="control maximize"></div>
+      </div>
+    </div>
+
+    <!-- Terminal Content -->
+    <div class="terminal">
+      <div class="line">
+        <span class="prompt">root@torren:~$</span>
+        <span class="cmd"> neofetch</span>
+      </div>
+
+      <div class="output">
+        <pre style="color:#00c2ff; margin-bottom:12px;">
+  ████████╗ ██████╗ ██████╗ ██████╗ ███████╗███╗   ██╗
+  ╚══██╔══╝██╔═══██╗██╔══██╗██╔══██╗██╔════╝████╗  ██║
+     ██║   ██║   ██║██████╔╝██████╔╝█████╗  ██╔██╗ ██║
+     ██║   ██║   ██║██╔══██╗██╔══██╗██╔══╝  ██║╚██╗██║
+     ██║   ╚██████╔╝██║  ██║██║  ██║███████╗██║ ╚████║
+     ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝
+        </pre>
+      </div>
+
+      <div class="line">
+        <span class="prompt">→</span> <span class="highlight">Torren Agent Skill</span>
+      </div>
+      <div class="output">
+        Powerful Yield & Treasury layer for AI Agents on Base
+      </div>
+
+      <div class="line" style="margin-top:18px;">
+        <span class="prompt">root@torren:~$</span>
+        <span class="cmd"> cat features.txt</span>
+      </div>
+      <div class="output">
+        • Agent Treasury Management<br>
+        • Yield Optimization on Base<br>
+        • Gas Strategy for Autonomous Agents<br>
+        • Torren Protocol Support<br>
+        • Clean & Actionable Guidance
+      </div>
+
+      <div class="line" style="margin-top:18px;">
+        <span class="prompt">root@torren:~$</span>
+        <span class="cmd"> install</span>
+      </div>
+      <div class="output">
+        <span class="warning"># Install on Bankr Agent:</span><br>
+        install the skill at https://github.com/installTorren/torren-agent
+      </div>
+
+      <div class="line" style="margin-top:18px;">
+        <span class="prompt">root@torren:~$</span>
+        <span class="cmd"> links</span>
+      </div>
+      <div class="output">
+        X/Twitter : <a class="link" href="https://x.com/GetTorren" target="_blank">@GetTorren</a><br>
+        GitHub    : <a class="link" href="https://github.com/installTorren/torren-agent" target="_blank">installTorren/torren-agent</a>
+      </div>
+
+      <div class="line" style="margin-top:22px;">
+        <span class="prompt">root@torren:~$</span>
+        <span class="cursor"></span>
+      </div>
+
+      <div class="footer">
+        <div>
+          <span class="badge">Base</span>
+          <span class="badge">Bankr Skill</span>
+          <span class="badge">v1.1.0</span>
+        </div>
+        <div>Built for AI Agents</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
