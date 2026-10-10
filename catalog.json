@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "slug": "torren-agent",
+  "provider": "Torren",
+  "providerUrl": "https://x.com/GetTorren",
+  "logo": "https://pbs.twimg.com/profile_images/2108843216095391744/Ql_UWufG_400x400.jpg",
+  "install": {
+    "type": "external",
+    "command": "install the skill at https://github.com/installTorren/torren-agent"
+  }
+}
